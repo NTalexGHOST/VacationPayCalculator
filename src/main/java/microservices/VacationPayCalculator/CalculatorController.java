@@ -9,10 +9,15 @@ import java.util.Date;
 @RestController
 public class CalculatorController {
 
-    @GetMapping("/calculate")
-    public double getVacationPay(@RequestParam double averageSalary, int numOfVacationDays, Date firstVacationDay, Date lastVacationDay) {
+    @GetMapping(value = "/calculate", params = {"averageSalary", "numOfVacationDays"})
+    public double getVacationPay(@RequestParam double averageSalary, int numOfVacationDays) {
 
-        if (firstVacationDay == null & lastVacationDay == null) return averageSalary * 29.3 * numOfVacationDays;
+        return Double.parseDouble(String.format("%.2f", averageSalary / 29.3 * numOfVacationDays).replace(',', '.'));
+    }
+
+    @GetMapping(value = "/calculate", params = {"averageSalary", "firstVacationDay", "lastVacationDay"})
+    public double getVacationPay(@RequestParam double averageSalary, Date firstVacationDay, Date lastVacationDay) {
+
         return 0;
     }
 }
