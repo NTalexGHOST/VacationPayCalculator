@@ -31,14 +31,13 @@ public class CalculatorController {
 
         double vacationPay = 0.0d;
         int numOfPaymentDays = 0;
-        String[] tempStringForUnformattedDate;
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        tempStringForUnformattedDate = firstVacationDay.split(".");
+        String[] tempStringForUnformattedDate = firstVacationDay.split("\\.");
         Calendar currentDay = new GregorianCalendar(Integer.parseInt(tempStringForUnformattedDate[2]),
                 Integer.parseInt(tempStringForUnformattedDate[1]), Integer.parseInt(tempStringForUnformattedDate[0]));
 
-        tempStringForUnformattedDate = lastVacationDay.split(".");
+        tempStringForUnformattedDate = lastVacationDay.split("\\.");
         Calendar lastDay = new GregorianCalendar(Integer.parseInt(tempStringForUnformattedDate[2]),
                 Integer.parseInt(tempStringForUnformattedDate[1]), Integer.parseInt(tempStringForUnformattedDate[0]));
         lastDay.add(Calendar.DAY_OF_MONTH, 1);

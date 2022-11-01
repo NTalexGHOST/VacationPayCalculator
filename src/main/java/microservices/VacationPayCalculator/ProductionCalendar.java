@@ -8,13 +8,14 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ProductionCalendar {
 
-    private List<String> holidayDays = null;
+    private List<String> holidayDays = new ArrayList<>();
 
     private void getHolidaysByYear(String year) {
 
@@ -44,7 +45,7 @@ public class ProductionCalendar {
 
     public boolean isHoliday(String day) {
 
-        String year = day.split(".")[2];
+        String year = day.split("\\.")[2];
         if (!holidayDays.contains(year)) getHolidaysByYear(year);
         if (holidayDays.contains(day)) return true;
 

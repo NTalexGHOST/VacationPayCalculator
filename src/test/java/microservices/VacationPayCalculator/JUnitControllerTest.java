@@ -14,7 +14,7 @@ public class JUnitControllerTest {
     public void testSimpleMethodForEqual() {
 
         actualVacationPay = calculatorController.getVacationPay(29000, 7);
-        expectedVacationPay = Double.parseDouble(String.format("%.2f", 29000 / 29.3 * 7).replace(',', '.'));
+        expectedVacationPay = calculatorController.formatVacationPay(29000 / 29.3 * 7);
         assertEquals("Testing a simple method for equal", expectedVacationPay, actualVacationPay);
     }
 
@@ -22,7 +22,15 @@ public class JUnitControllerTest {
     public void testSimpleMethodForNotEqual() {
 
         actualVacationPay = calculatorController.getVacationPay(52796, 14);
-        expectedVacationPay = Double.parseDouble(String.format("%.2f", 27416 / 29.3 * 3).replace(',', '.'));
+        expectedVacationPay = calculatorController.formatVacationPay(27416 / 29.3 * 3);
         assertNotEquals("Testing a simple method for not equal", expectedVacationPay, actualVacationPay);
+    }
+
+    @Test
+    public void testAdvancedMethodForEqual() {
+
+        actualVacationPay = calculatorController.getVacationPay(68420, "01.01.2022", "23.01.2022");
+        expectedVacationPay = calculatorController.formatVacationPay(68420 / 29.3 * 18);
+        assertEquals("Testing an advanced method for not equal", expectedVacationPay, actualVacationPay);
     }
 }
