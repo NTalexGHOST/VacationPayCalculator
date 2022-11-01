@@ -1,7 +1,6 @@
 package microservices.VacationPayCalculator;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.AssertionErrors;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertNotEquals;
