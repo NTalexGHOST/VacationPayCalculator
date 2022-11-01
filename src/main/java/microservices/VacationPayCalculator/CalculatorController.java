@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 @RestController
@@ -32,11 +31,14 @@ public class CalculatorController {
         int numOfPaymentDays = 0;
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        // Временный строковый массив для разделения даты на день, месяц и год для забивания её в календарь
         String[] tempStringForUnformattedDate = firstVacationDay.split("\\.");
+        // Текущий проверяемый день
         Calendar currentDay = new GregorianCalendar(Integer.parseInt(tempStringForUnformattedDate[2]),
                 Integer.parseInt(tempStringForUnformattedDate[1]) - 1, Integer.parseInt(tempStringForUnformattedDate[0]));
 
         tempStringForUnformattedDate = lastVacationDay.split("\\.");
+        // Последний день отпуска к которому плюсуется один день для корректной работы цикла
         Calendar lastDay = new GregorianCalendar(Integer.parseInt(tempStringForUnformattedDate[2]),
                 Integer.parseInt(tempStringForUnformattedDate[1]) - 1, Integer.parseInt(tempStringForUnformattedDate[0]));
         lastDay.add(Calendar.DAY_OF_MONTH, 1);
