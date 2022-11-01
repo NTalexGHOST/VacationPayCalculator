@@ -13,8 +13,6 @@ import java.util.GregorianCalendar;
 @RestController
 public class CalculatorController {
 
-    ProductionCalendar productionCalendar = new ProductionCalendar();
-
     public double formatVacationPay(double vacationPay) {
 
         return Double.parseDouble(String.format("%.2f", vacationPay).replace(',', '.'));
@@ -29,20 +27,20 @@ public class CalculatorController {
     @GetMapping(value = "/calculate", params = {"averageSalary", "firstVacationDay", "lastVacationDay"})
     public double getVacationPay(@RequestParam double averageSalary, String firstVacationDay, String lastVacationDay) {
 
+        ProductionCalendar productionCalendar = new ProductionCalendar();
         double vacationPay = 0.0d;
         int numOfPaymentDays = 0;
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String[] tempStringForUnformattedDate = firstVacationDay.split("\\.");
         Calendar currentDay = new GregorianCalendar(Integer.parseInt(tempStringForUnformattedDate[2]),
-                Integer.parseInt(tempStringForUnformattedDate[1]), Integer.parseInt(tempStringForUnformattedDate[0]));
+                Integer.parseInt(tempStringForUnformattedDate[1]) - 1, Integer.parseInt(tempStringForUnformattedDate[0]));
 
         tempStringForUnformattedDate = lastVacationDay.split("\\.");
         Calendar lastDay = new GregorianCalendar(Integer.parseInt(tempStringForUnformattedDate[2]),
-                Integer.parseInt(tempStringForUnformattedDate[1]), Integer.parseInt(tempStringForUnformattedDate[0]));
+                Integer.parseInt(tempStringForUnformattedDate[1]) - 1, Integer.parseInt(tempStringForUnformattedDate[0]));
         lastDay.add(Calendar.DAY_OF_MONTH, 1);
-
-        while (currentDay != lastDay) {
+        while (!currentDay.equals(lastDay)) {
             if (!productionCalendar.isHoliday(dateFormat.format(currentDay.getTime())))
                 numOfPaymentDays += 1;
             currentDay.add(Calendar.DAY_OF_MONTH, 1);

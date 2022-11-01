@@ -16,8 +16,9 @@ import java.util.List;
 public class ProductionCalendar {
 
     private List<String> holidayDays = new ArrayList<>();
+    private List<String> checkedYears = new ArrayList<>();
 
-    private void getHolidaysByYear(String year) {
+    public void getHolidaysByYear(String year) {
 
         try {
             DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -27,27 +28,26 @@ public class ProductionCalendar {
             int monthNum = 0;
 
             for (Element month : months) {
-                Elements days = month.select("li.calendar-list__numbers__item calendar-list__numbers__item_day-off");
+                Elements days = month.select("li.calendar-list__numbers__item_day-off");
                 for (Element day : days) {
-                    Calendar currentDay = new GregorianCalendar(Integer.parseInt(year), monthNum, Integer.parseInt(day.text()));
+                    Calendar currentDay = new GregorianCalendar(Integer.parseInt(year), monthNum, Integer.parseInt(day.text().split(" ")[0]));
                     dateFormat.format(currentDay.getTime());
                     int dayWeek = currentDay.get(Calendar.DAY_OF_WEEK);
 
-                    if (dayWeek != 1 & dayWeek != 7 & day.select("div.calendar-hint").get(0).text().contains("Выходной день.")) {
+                    if (dayWeek != 1 & dayWeek != 7 & day.select("div.calendar-hint").get(0).text().contains("Выходной день."))
                         holidayDays.add(dateFormat.format(currentDay.getTime()));
-                        System.out.println(dateFormat.format(currentDay.getTime()));
-                    }
                 }
                 monthNum += 1;
             }
+            checkedYears.add(year);
         } catch (IOException e) { }
     }
 
-    public boolean isHoliday(String day) {
+    public boolean isHoliday(String date) {
 
-        String year = day.split("\\.")[2];
-        if (!holidayDays.contains(year)) getHolidaysByYear(year);
-        if (holidayDays.contains(day)) return true;
+        String year = date.split("\\.")[2];
+        if (!checkedYears.contains(year)) getHolidaysByYear(year);
+        if (holidayDays.contains(date)) return true;
 
         return false;
     }
